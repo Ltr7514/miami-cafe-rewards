@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Miami Cafe Rewards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f7f7f7;
+    }
+
+    .box {
+      max-width: 420px;
+      margin: 40px auto;
+      background: white;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      font-size: 16px;
+      box-sizing: border-box;
+      border-radius: 8px;
+    }
+
+    input, select {
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #status {
+      margin-top: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Miami Cafe Rewards ☕</h2>
+
+    <input id="name" placeholder="Name / Magaca">
+    <input id="phone" placeholder="Phone / Lambarka">
+
+    <select id="action">
+      <option value="Visit / Booqasho">Visit / Booqasho</option>
+      <option value="Redeem / Abaalmarin qaado">Redeem / Abaalmarin qaado</option>
+    </select>
+
+    <button onclick="sendForm()">Submit / Gudbi</button>
+
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const WEB_APP_URL = https://script.google.com/macros/s/AKfycbwsdfaAw23-uxkytrbxR3jsbM3Ch0a6Gqkjz0On_bES5_zWdlxy8f5JKLil6nxhZR_B/exec;
+
+    async function sendForm() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const action = document.getElementById("action").value;
+      const status = document.getElementById("status");
+
+      if (!name || !phone) {
+        status.textContent = "Please fill in name and phone. / Fadlan geli magaca iyo lambarka.";
+        return;
+      }
+
+      status.textContent = "Submitting... / Waa la dirayaa...";
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, phone, action })
+        });
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        status.textContent = "Submitted successfully. / Si guul leh ayaa loo gudbiyey.";
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("action").value = "Visit / Booqasho";
+      } catch (error) {
+        status.textContent = "Something went wrong. / Cilad ayaa dhacday.";
+      }
+    }
+  </script>
+</body>
+</html>
