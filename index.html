@@ -1,121 +1,459 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Miami Cafe Loyalty</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miami Cafe Loyalty</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-body {
-font-family: Arial, sans-serif;
-text-align: center;
-padding: 40px 20px;
-background: #f5f5f5;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      color: #222;
+      padding: 20px 14px 40px;
+    }
 
-.container {
-max-width: 400px;
-margin: auto;
-background: white;
-padding: 25px;
-border-radius: 10px;
-box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 26px;
+      padding: 26px 18px 24px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
 
-h2 {
-margin-bottom: 20px;
-}
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("logo.png") no-repeat center 120px;
+      background-size: 120%;
+      opacity: 0.07;
+      pointer-events: none;
+    }
 
-input, select {
-width: 100%;
-padding: 12px;
-margin: 10px 0;
-border-radius: 6px;
-border: 1px solid #ccc;
-font-size: 16px;
-}
+    .content {
+      position: relative;
+      z-index: 1;
+    }
 
-button {
-width: 100%;
-padding: 14px;
-background: black;
-color: white;
-border: none;
-border-radius: 6px;
-font-size: 16px;
-margin-top: 10px;
-}
+    .hero {
+      text-align: center;
+      margin-bottom: 18px;
+    }
 
-#status {
-margin-top: 15px;
-font-size: 14px;
-}
-</style>
+    .cup {
+      font-size: 54px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      margin: 0;
+      color: #d70016;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 12px 0 6px;
+      font-size: 17px;
+      color: #444;
+      line-height: 1.35;
+    }
+
+    .subtitle-so {
+      margin: 0 0 20px;
+      font-size: 15px;
+      color: #d70016;
+      line-height: 1.35;
+    }
+
+    .progress-card {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      background: rgba(255,255,255,0.96);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    .progress-left {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .gift-circle {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: #d70016;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      flex-shrink: 0;
+    }
+
+    .progress-label {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .progress-number {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #f1d7dc;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      width: 70%;
+      height: 100%;
+      background: #d70016;
+      border-radius: 999px;
+    }
+
+    .progress-right {
+      border-left: 1px solid #eee;
+      padding-left: 16px;
+      text-align: center;
+    }
+
+    .progress-right-top {
+      color: #d70016;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .progress-right-sub {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 6px;
+    }
+
+    .field {
+      width: 100%;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 18px 18px 18px 18px;
+      border-radius: 18px;
+      border: 2px solid #ececec;
+      background: rgba(255,255,255,0.97);
+      font-size: 16px;
+      color: #222;
+      outline: none;
+      appearance: none;
+    }
+
+    .field input::placeholder {
+      color: #9d9d9d;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      background: #d70016;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 18px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(215, 0, 22, 0.25);
+      margin-top: 6px;
+    }
+
+    .status-box {
+      margin-top: 18px;
+      border-radius: 18px;
+      background: #f3faf3;
+      border: 1px solid #d8ecd8;
+      padding: 18px 16px;
+      display: none;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .status-box.show {
+      display: flex;
+    }
+
+    .status-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 3px solid #15803d;
+      color: #15803d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .status-text {
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .status-text strong {
+      display: block;
+      color: #167a3b;
+      margin-bottom: 4px;
+    }
+
+    .status-error {
+      color: #b00020;
+      margin-top: 14px;
+      text-align: center;
+      min-height: 22px;
+      font-size: 14px;
+    }
+
+    .nav {
+      margin-top: 22px;
+      background: #fff;
+      border-radius: 22px;
+      padding: 12px 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+    }
+
+    .nav-item {
+      text-align: center;
+      color: #7a7a7a;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .nav-item .icon {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .nav-item.active {
+      color: #d70016;
+      font-weight: 700;
+    }
+
+    .powered {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #d70016;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .powered::before,
+    .powered::after {
+      content: "";
+      width: 72px;
+      height: 1px;
+      background: #efb8c0;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .powered-text {
+      line-height: 1.45;
+    }
+
+    @media (max-width: 420px) {
+      .progress-card {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-right {
+        border-left: none;
+        border-top: 1px solid #eee;
+        padding-left: 0;
+        padding-top: 14px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <div class="content">
+      <div class="hero">
+        <div class="cup">☕</div>
+        <h1 class="title">Miami Cafe Loyalty</h1>
+        <p class="subtitle">Every visit brings you closer to a free reward!</p>
+        <p class="subtitle-so">Booqasho kasta waxay kuu soo dhowaynaysaa abaalmarin!</p>
+      </div>
 
-<div class="container">
-<h2>Miami Cafe Loyalty</h2>
+      <div class="progress-card">
+        <div>
+          <div class="progress-left">
+            <div class="gift-circle">🎁</div>
+            <div style="flex:1;">
+              <div class="progress-label">Your Progress / Horumarkaaga</div>
+              <div class="progress-number"><span id="progressCount">0</span> / 10 points</div>
+              <div class="bar">
+                <div class="bar-fill" id="progressBar" style="width:0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<input id="name" placeholder="Name / Magaca">
-<input id="phone" placeholder="Phone / Lambarka">
+        <div class="progress-right">
+          <div class="progress-right-top">
+            <span id="pointsLeft">10</span> more points<br>until free reward
+          </div>
+          <div class="progress-right-sub">
+            <span id="pointsLeftSo">10</span> dhibcood ayaa ka hadhay ilaa abaalmarin
+          </div>
+        </div>
+      </div>
 
-<select id="action">
-<option value="Visit / Booqasho">Visit / Booqasho</option>
-<option value="Redeem / Abaalmarin qaado">Redeem / Abaalmarin qaado</option>
-</select>
+      <div class="field">
+        <input id="name" type="text" placeholder="Name / Magaca">
+      </div>
 
-<button onclick="sendForm()">Submit / Gudbi</button>
+      <div class="field">
+        <input id="phone" type="tel" placeholder="Phone / Lambarka">
+      </div>
 
-<p id="status"></p>
-</div>
+      <div class="field">
+        <select id="action">
+          <option value="Visit / Booqasho">Visit / Booqasho</option>
+          <option value="Redeem / Abaalmarin qaado">Redeem / Abaalmarin qaado</option>
+        </select>
+      </div>
 
-<script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsdfaAw23-uxkytrbxR3jsbM3Ch0a6Gqkjz0On_bES5_zWdlxy8f5JKLil6nxhZR_B/exec";
+      <button class="submit-btn" onclick="sendForm()">☕ Submit / Gudbi</button>
 
-async function sendForm() {
-const name = document.getElementById("name").value.trim();
-const phone = document.getElementById("phone").value.trim();
-const action = document.getElementById("action").value;
-const status = document.getElementById("status");
+      <div class="status-box" id="successBox">
+        <div class="status-icon">✓</div>
+        <div class="status-text">
+          <strong>Submitted successfully!</strong>
+          Si guul leh ayaad u gudbisay.
+        </div>
+      </div>
 
-if (!name || !phone) {
-status.textContent = "Please fill in name and phone. / Fadlan geli magaca iyo lambarka.";
-return;
-}
+      <div class="status-error" id="errorBox"></div>
 
-status.textContent = "Submitting... / Waa la dirayaa...";
+      <div class="nav">
+        <div class="nav-item active">
+          <span class="icon">🏠</span>
+          Home
+        </div>
+        <div class="nav-item">
+          <span class="icon">🎁</span>
+          Rewards
+        </div>
+        <div class="nav-item">
+          <span class="icon">☕</span>
+          History
+        </div>
+        <div class="nav-item">
+          <span class="icon">👤</span>
+          Profile
+        </div>
+      </div>
 
-try {
-const response = await fetch(WEB_APP_URL, {
-method: "POST",
-headers: {
-"Content-Type": "text/plain;charset=utf-8"
-},
-body: JSON.stringify({ name, phone, action })
-});
+      <div class="powered">
+        <div class="powered-text">✨ Powered by AI / Waxaa taageeray AI</div>
+      </div>
+    </div>
+  </div>
 
-const text = await response.text();
-console.log(text);
+  <script>
+    const WEB_APP_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL";
 
-if (!response.ok) {
-throw new Error("Request failed");
-}
+    async function sendForm() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const action = document.getElementById("action").value;
+      const successBox = document.getElementById("successBox");
+      const errorBox = document.getElementById("errorBox");
 
-status.textContent = "Submitted successfully! / Si guul leh ayaa loo gudbiyey.";
+      successBox.classList.remove("show");
+      errorBox.textContent = "";
 
-// Clear form
-document.getElementById("name").value = "";
-document.getElementById("phone").value = "";
-document.getElementById("action").value = "Visit / Booqasho";
+      if (!name || !phone) {
+        errorBox.textContent = "Please fill in name and phone. / Fadlan geli magaca iyo lambarka.";
+        return;
+      }
 
-} catch (error) {
-console.error(error);
-status.textContent = "Submit failed. / Diristu way fashilantay.";
-}
-}
-</script>
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({ name, phone, action })
+        });
 
+        const result = await response.json();
+
+        if (!result.success && result.blocked) {
+          errorBox.textContent = result.message + " / Fadlan mar kale isku day.";
+          updateProgress(result.points, result.pointsLeft);
+          return;
+        }
+
+        if (!result.success) {
+          errorBox.textContent = "Submit failed. / Diristu way fashilantay.";
+          return;
+        }
+
+        updateProgress(result.points, result.pointsLeft);
+        successBox.classList.add("show");
+
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("action").value = "Visit / Booqasho";
+      } catch (error) {
+        console.error(error);
+        errorBox.textContent = "Submit failed. / Diristu way fashilantay.";
+      }
+    }
+
+    function updateProgress(points, pointsLeft) {
+      document.getElementById("progressCount").textContent = points;
+      document.getElementById("pointsLeft").textContent = pointsLeft;
+      document.getElementById("pointsLeftSo").textContent = pointsLeft;
+
+      const percent = Math.min((points / 10) * 100, 100);
+      document.getElementById("progressBar").style.width = percent + "%";
+    }
+  </script>
 </body>
 </html>
